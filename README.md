@@ -23,15 +23,3 @@ word_bank.add_word("hello", tags=["english", "greeting"])
 todays_words = word_bank.get_todays_words()
 print("Today's words:", todays_words)
 ```
-
-## Documentation
-
-For detailed documentation and usage examples, refer to the [official documentation](link-to-your-documentation).
-
-## Contributing
-
-Contributions are welcome! Please read our [contribution guidelines](link-to-contribution-guidelines) for details on how to contribute to this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
