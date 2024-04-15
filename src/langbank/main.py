@@ -91,8 +91,9 @@ class LangBank:
 
         dt = datetime.now()
         entry = {"word": word, "datetime": dt.strftime(DATETIME_FORMAT), "tags": tags}
-        with open(self.file_path, "a") as f:
-            f.write(json.dumps(entry) + "\n")
+        bank = self.get_bank()
+        bank.append(entry)
+        self.write_bank(bank)
 
     def get_words_from_past_n_days(self, n=0):
         """
