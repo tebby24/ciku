@@ -21,6 +21,8 @@ class LangBank:
         else:
             self.file_path = file_path
 
+        self.setup_bank()
+
     def set_file_path(self, file_path):
         """
         Set the file path for the word bank.

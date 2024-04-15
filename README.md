@@ -1,23 +1,12 @@
 # LangBank
 
-LangBank is a Python package for managing a word bank for language learning. It provides functionality for storing words along with additional information such as tags and timestamps.
-
-## Features
-
--   **Word Bank Management**: Add, retrieve, and manipulate words in the word bank.
--   **Tagging**: Associate tags with words to organize them into categories.
--   **Timestamps**: Automatically record the date and time when a word is added to the bank.
--   **Customization**: Easily customize the file path and storage location of the word bank.
+LangBank is a Python package for managing a word bank for language learning. It provides functionality for storing and retrieving words along with additional information such as timestamps and tags.
 
 ## Installation
 
-To install LangBank, use `pip`:
-
 ```bash
-pip install /path/to/your/package/dist/langbank-0.1.tar.gz
+pip install langbank
 ```
-
-Replace `/path/to/your/package/dist/langbank-0.1.tar.gz` with the actual path to your distribution package file.
 
 ## Usage
 
