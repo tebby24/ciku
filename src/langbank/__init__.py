@@ -1,1 +1,1 @@
-from .bank import bank
+from .main import LangBank
