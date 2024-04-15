@@ -90,7 +90,7 @@ class LangBank:
             tags = []
 
         dt = datetime.now()
-        entry = {"word": word, "datetime": dt.strftime(DATETIME_FORMAT), "tags": tags}
+        entry = {"word": word, "datetime": dt, "tags": tags}
         bank = self.get_bank()
         bank.append(entry)
         self.write_bank(bank)
