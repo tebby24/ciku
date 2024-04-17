@@ -18,6 +18,9 @@ from langbank import LangBank
 # Initialize a LangBank instance
 lb = LangBank()
 
+# Set a new file path
+lb.set_file_path("~/new_path/word_bank.txt")
+
 # Add a word to the bank with optional tags
 lb.add_word("hello", tags=["greeting", "basic"])
 
