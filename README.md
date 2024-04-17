@@ -1,6 +1,6 @@
-# LLTools
+# lltools
 
-LLTools is a simple Python package that provides tools for language learning.
+lltools is a simple Python package that provides tools for language learning.
 
 ## Installation
 
