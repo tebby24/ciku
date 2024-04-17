@@ -1,17 +1,16 @@
 from setuptools import find_packages, setup
 
-VERSION = "0.2.1"
+VERSION = "0.2.2"
 
 setup(
-    name="langbank",
+    name="lltools",
     author="Teddy Gonyea",
     author_email="enterted@gmail.com",
     version=VERSION,
     packages=find_packages(where="src"),
     package_dir={"": "src"},
-    description="A simple word bank for language learning",
-    long_description=open("README.md").read(),
-    long_description_content_type="text/markdown",
+    description="A set of simple tools for language learning.",
+    long_description="Github: https://github.com/tebby24/lltools",
     keywords=["language learning"],
-    url="https://github.com/tebby24/langbank",
+    url="https://github.com/tebby24/lltools",
 )

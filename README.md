@@ -1,59 +1,66 @@
-# LangBank
+# LLTools
 
-LangBank is a Python package for managing a word bank for language learning. It provides functionality for storing and retrieving words along with additional information such as timestamps and tags.
+LLTools is a simple Python package that provides tools for language learning.
 
 ## Installation
 
 ```bash
-pip install langbank
+pip install lltools
 ```
 
 ## Usage
 
-### LangBank class
+### Word bank
+
+A `WordBank` manages a json file that contains a list of words you've encountered.
+You can add words to the bank and query them in various ways.
 
 ```python
-from langbank import LangBank
+from lltools import WordBank
 
-# Initialize a LangBank instance
-lb = LangBank()
+# Initialize a WordBank instance
+wb = WordBank()
 
 # Set a new file path
-lb.set_file_path("~/new_path/word_bank.txt")
+wb.set_file_path("~/new_path/word_bank.txt")
 
 # Add a word to the bank with optional tags
-lb.add_word("hello", tags=["greeting", "basic"])
+wb.add_word("hello", tags=["greeting", "basic"])
 
 # Get all words in the bank
-words = lb.get_all_words()
+words = wb.get_all_words()
 
 # Get all unique words in the bank
-unique_words = lb.get_all_unique_words()
+unique_words = wb.get_all_unique_words()
 
 # Get words added in the past n days
-recent_words = lb.get_words_from_past_n_days(7)
+recent_words = wb.get_words_from_past_n_days(7)
 
 # Get words added today
-todays_words = lb.get_todays_words()
+todays_words = wb.get_todays_words()
 
 # Get words by a specific tag
-greeting_words = lb.get_words_by_tag("greeting")
+greeting_words = wb.get_words_by_tag("greeting")
 
 # Get words added on a specific date
 from datetime import date
-words_on_date = lb.get_words_by_date(date(2021, 12, 31))
+words_on_date = wb.get_words_by_date(date(2021, 12, 31))
 
 # Get the number of times a word has been added
-occurrences = lb.occurences("hello")
+occurrences = wb.occurences("hello")
 ```
 
-### ReviewList class
+### Review list
+
+A `ReviewList` manages a txt file that contains a list of words that you want to review.
+You can add words to the list. When the list if full, you can get the words and review them.
+If you try add a word past the list's capacity, the list will be cleared, and the new word will be added to the empty list.
 
 ```python
 from langbank import ReviewList
 
 # Initialize a ReviewList instance
-rl = ReviewList()
+rl = ReviewList(file_path="path/to/your/review_list.txt", size=5)
 
 # Set a new file path
 rl.set_file_path("~/new_path/review_list.txt")
@@ -66,4 +73,7 @@ is_full = rl.is_full()
 
 # Get the review list
 review_list = rl.get_list()
+
+# Clear the review list
+rl.clear_list()
 ```

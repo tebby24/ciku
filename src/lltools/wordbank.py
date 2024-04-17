@@ -6,7 +6,7 @@ DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 DEFAULT_FILE_PATH = os.path.expanduser("~/langbank/bank.json")
 
 
-class LangBank:
+class WordBank:
     """
     A class for managing a word bank for language learning.
     """
