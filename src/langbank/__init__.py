@@ -1,1 +1,2 @@
-from .main import LangBank
+from .langbank import LangBank
+from .review_list import ReviewList

@@ -3,6 +3,7 @@ import os
 from datetime import datetime
 
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+DEFAULT_FILE_PATH = os.path.expanduser("~/langbank/bank.json")
 
 
 class LangBank:
@@ -17,10 +18,9 @@ class LangBank:
         """
         if file_path is None:
             # Default file path: ~/langbank/bank.json
-            self.file_path = os.path.expanduser("~/langbank/bank.json")
+            self.file_path = DEFAULT_FILE_PATH
         else:
             self.file_path = file_path
-
         self.setup_bank()
 
     def set_file_path(self, file_path):
@@ -37,7 +37,6 @@ class LangBank:
         parent_dir = os.path.dirname(self.file_path)
         if not os.path.exists(parent_dir):
             os.makedirs(parent_dir)
-
         # Create the word bank file if it does not exist
         if not os.path.exists(self.file_path):
             with open(self.file_path, "w") as f:
@@ -74,7 +73,6 @@ class LangBank:
         for item in bank:
             if "datetime" in item:
                 item["datetime"] = item["datetime"].strftime(DATETIME_FORMAT)
-
         # Write bank to JSON file
         with open(self.file_path, "w") as f:
             json.dump(bank, f, indent=4)
@@ -88,12 +86,30 @@ class LangBank:
         """
         if tags is None:
             tags = []
-
         dt = datetime.now()
         entry = {"word": word, "datetime": dt, "tags": tags}
         bank = self.get_bank()
         bank.append(entry)
         self.write_bank(bank)
+
+    def get_all_words(self):
+        """
+        Get a list of all the words in the bank
+        """
+        bank = self.get_bank()
+        words = [entry["word"] for entry in bank]
+        return words
+
+    def get_all_unique_words(self):
+        """
+        Get a list of all the unique words in the bank
+        """
+        bank = self.get_bank()
+        words = []
+        for entry in bank:
+            if entry["word"] not in words:
+                words.append(entry["word"])
+        return words
 
     def get_words_from_past_n_days(self, n=0):
         """
@@ -105,7 +121,6 @@ class LangBank:
         for entry in bank:
             if (today - entry["datetime"].date()).days <= n:
                 words.append(entry["word"])
-
         return words
 
     def get_todays_words(self):
@@ -123,7 +138,6 @@ class LangBank:
         for entry in bank:
             if tag in entry["tags"]:
                 words.append(entry["word"])
-
         return words
 
     def get_words_by_date(self, date):
@@ -135,7 +149,6 @@ class LangBank:
         for entry in bank:
             if entry["datetime"].date() == date:
                 words.append(entry["word"])
-
         return words
 
     def occurences(self, word):
@@ -147,5 +160,4 @@ class LangBank:
         for entry in bank:
             if entry["word"] == word:
                 count += 1
-
         return count
