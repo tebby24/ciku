@@ -1,11 +1,11 @@
-# lltools
+# tebbytools
 
-lltools is a simple Python package that provides tools for language learning.
+tebbytools is a simple Python package that provides tools for language learning.
 
 ## Installation
 
 ```bash
-pip install lltools
+pip install tebbytools
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ A `WordBank` manages a json file that contains a list of words you've encountere
 You can add words to the bank and query them in various ways.
 
 ```python
-from lltools import WordBank
+from tebbytools import WordBank
 
 # Initialize a WordBank instance
 wb = WordBank(file_path="path/to/your/word_bank.json")
@@ -57,7 +57,7 @@ You can add words to the list. When the list if full, you can get the words and 
 If you try add a word past the list's capacity, the list will be cleared, and the new word will be added to the empty list.
 
 ```python
-from langbank import ReviewList
+from tebbytools import ReviewList
 
 # Initialize a ReviewList instance
 rl = ReviewList(file_path="path/to/your/review_list.txt", size=5)

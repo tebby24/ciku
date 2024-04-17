@@ -1,2 +1,2 @@
 from .reviewlist import ReviewList
-from .wordbank import LangBank
+from .wordbank import WordBank

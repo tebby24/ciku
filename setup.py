@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 VERSION = "0.2.2"
 
 setup(
-    name="lltools",
+    name="tebbytools",
     author="Teddy Gonyea",
     author_email="enterted@gmail.com",
     version=VERSION,
