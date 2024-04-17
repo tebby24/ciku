@@ -19,10 +19,10 @@ You can add words to the bank and query them in various ways.
 from lltools import WordBank
 
 # Initialize a WordBank instance
-wb = WordBank()
+wb = WordBank(file_path="path/to/your/word_bank.json")
 
 # Set a new file path
-wb.set_file_path("~/new_path/word_bank.txt")
+wb.set_file_path("~/new_path/word_bank.json")
 
 # Add a word to the bank with optional tags
 wb.add_word("hello", tags=["greeting", "basic"])
