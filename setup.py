@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-VERSION = "0.2.2"
+VERSION = "0.2.4"
 
 setup(
     name="tebbytools",
@@ -10,7 +10,7 @@ setup(
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     description="A set of simple tools for language learning.",
-    long_description="Github: https://github.com/tebby24/lltools",
+    long_description="Github: https://github.com/tebby24/tebbytools",
     keywords=["language learning"],
-    url="https://github.com/tebby24/lltools",
+    url="https://github.com/tebby24/tebbytools",
 )

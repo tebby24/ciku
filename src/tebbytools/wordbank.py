@@ -129,6 +129,13 @@ class WordBank:
         """
         return self.get_words_from_past_n_days(0)
 
+    def get_todays_new_words(self):
+        """
+        Get the list of words added today that have not been added before
+        """
+        todays_words = self.get_todays_words()
+        return [word for word in todays_words if self.occurences(word) == 1]
+
     def get_words_by_tag(self, tag):
         """
         Get a list of all the words with a specific tag
