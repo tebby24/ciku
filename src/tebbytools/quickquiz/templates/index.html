@@ -1,0 +1,23 @@
+{% extends "templates/base.html" %} {% block title %}Index{% endblock %} {%
+block main %}
+<div
+    class="d-flex align-items-center justify-content-center"
+    style="height: 100vh"
+>
+    <div class="text-center">
+        <h1>Quick Quiz</h1>
+        <p>insert your terms below</p>
+        <form id="quiz-form" method="POST" action="/quiz" class="container">
+            <textarea
+                id="terms"
+                name="terms"
+                rows="10"
+                class="form-control mb-4"
+            ></textarea>
+            <button type="submit" class="btn btn-primary btn-block">
+                Start Quiz
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

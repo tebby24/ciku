@@ -1,0 +1,1 @@
+from .quickquiz import QuickQuiz
