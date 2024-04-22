@@ -1,2 +1,4 @@
 dist/
 **/langbank.egg-info/
+
+.venv/*
