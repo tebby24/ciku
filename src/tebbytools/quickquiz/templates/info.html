@@ -1,0 +1,26 @@
+{% extends "templates/base.html" %} {% block title %}Info{% endblock %} {%block
+content %}
+<div
+    class="d-flex flex-column align-items-center justify-content-center"
+    style="height: 100vh"
+>
+    <div class="col-md-4">
+        <h3>About</h3>
+        <p>
+            Quick Quiz is a simple webapp that uses Python and Flask. It runs in
+            a local server on your computer.
+        </p>
+        <h3>Usage</h3>
+        <p>
+            On the homepage, insert the terms you want to study in the textbox,
+            with one term per line. Click "Start" to begin the quiz.
+        </p>
+        <p>
+            While taking the quiz, check your answer for each term using a popup
+            dictionary, then click either pass or fail. To pass or fail terms,
+            you can also use the shortcuts 'space' or 'z' respectively.
+        </p>
+        <p>The quiz ends when each of the terms have been passed once.</p>
+    </div>
+</div>
+{% endblock %}

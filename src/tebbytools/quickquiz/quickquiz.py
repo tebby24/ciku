@@ -16,6 +16,10 @@ class QuickQuiz:
             terms_string = "\n".join(self.input_terms)
             return render_template("index.html", terms_string=terms_string)
 
+        @self.app.route("/info")
+        def info():
+            return render_template("info.html")
+
         @self.app.route("/quiz", methods=["POST", "GET"])
         def quiz():
             if request.method == "POST":

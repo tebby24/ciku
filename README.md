@@ -77,3 +77,25 @@ review_list = rl.get_list()
 # Clear the review list
 rl.clear_list()
 ```
+
+### Quick Quiz
+
+A `QuickQuiz` is a simple quiz application that runs a local web server.
+You can input your terms in a text box after starting the quiz, or include a list of terms as an argument to the `start()` method.
+By default, the server will run on port 5000, but you can modify this behavior by setting the port argument in the `start()` method.\
+
+The `QuickQuiz` is designed to be used with the review list. Once the review list is full, quickly quiz yourself on thoes terms.
+
+```python
+from tebbytools import QuickQuiz
+
+# Initialize a ReviewList object
+rl = ReviewList(file_path="path/to/your/review_list.txt", size=5)
+
+# Check if the review list is full
+if rl.is_full():
+    # Initialize a QuickQuiz object
+    qq = QuickQuiz()
+    # Start the server with a list of terms
+    qq.start(terms=rl.get_list(), port=1234)
+```
