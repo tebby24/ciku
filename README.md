@@ -22,7 +22,7 @@ from tebbytools import WordBank
 wb = WordBank(file_path="path/to/your/word_bank.json")
 
 # Set a new file path
-wb.set_file_path("~/new_path/word_bank.json")
+wb.set_file_path("new/path/to/your/word_bank.json")
 
 # Add a word to the bank with optional tags
 wb.add_word("hello", tags=["greeting", "basic"])
