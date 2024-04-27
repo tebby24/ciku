@@ -1,7 +1,8 @@
-{% extends "templates/base.html" %} {% block title %}Index{% endblock %} {%
-block main %}
+{% extends "templates/base.html" %} 
+{% block title %}Index{% endblock %} 
+{%block content %}
 <div
-    class="d-flex align-items-center justify-content-center"
+    class="d-flex .flex-column align-items-center justify-content-center"
     style="height: 100vh"
 >
     <div class="text-center">
@@ -12,10 +13,16 @@ block main %}
                 id="terms"
                 name="terms"
                 rows="10"
-                class="form-control mb-4"
-            ></textarea>
-            <button type="submit" class="btn btn-primary btn-block">
+                class="form-control mb-4 bg-white text-dark"
+                >{{terms_string}}
+            </textarea>
+            <button type="submit" class="btn btn-primary">
                 Start Quiz
+            </button>
+        </form>
+        <form action="/shutdown" method="get" class="fixed-bottom p-3">
+            <button type="submit" class="btn btn-danger">
+                Quit
             </button>
         </form>
     </div>

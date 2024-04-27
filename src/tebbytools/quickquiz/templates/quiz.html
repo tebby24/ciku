@@ -1,0 +1,17 @@
+{% extends "templates/base.html" %} {% block title %}Quiz{% endblock %} {%block
+content %}
+<div
+    class="d-flex align-items-center justify-content-center"
+    style="height: 100vh"
+>
+    <h1 class="display-3 text-center">{{term}}</h1>
+    <div class="d-flex fixed-bottom justify-content-center p-3">
+        <form action="/pass" method="post" class="me-2">
+            <input type="submit" class="btn btn-primary" value="Pass">
+        </form>
+        <form action="/fail" method="post">
+            <input type="submit" class="btn btn-danger" value="Fail">
+        </form>
+    </div>  
+</div>
+{% endblock %}

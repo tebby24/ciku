@@ -7,4 +7,4 @@ from src.tebbytools import QuickQuiz
 
 if __name__ == "__main__":
     qq = QuickQuiz()
-    qq.start()
+    qq.start(terms=["a", "b", "c"], port=3001)
