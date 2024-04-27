@@ -63,7 +63,7 @@ from tebbytools import ReviewList
 rl = ReviewList(file_path="path/to/your/review_list.txt", size=5)
 
 # Set a new file path
-rl.set_file_path("~/new_path/review_list.txt")
+rl.set_file_path("new/path/to/your/review_list.txt")
 
 # Add a new word
 rl.add_word("hello")
@@ -84,17 +84,17 @@ A `QuickQuiz` is a simple quiz application that runs a local web server.
 You can input your terms in a text box after starting the quiz, or include a list of terms as an argument to the `start()` method.
 By default, the server will run on port 5000, but you can modify this behavior by setting the port argument in the `start()` method.\
 
-The `QuickQuiz` is designed to be used with the review list. Once the review list is full, quickly quiz yourself on thoes terms.
+The `QuickQuiz` is designed to be used with the `ReviewList`. Once the review list is full, quickly quiz yourself on its contents.
 
 ```python
-from tebbytools import QuickQuiz
+from tebbytools import ReviewList, QuickQuiz
 
-# Initialize a ReviewList object
+# Initialize a ReviewList instance
 rl = ReviewList(file_path="path/to/your/review_list.txt", size=5)
 
 # Check if the review list is full
 if rl.is_full():
-    # Initialize a QuickQuiz object
+    # Initialize a QuickQuiz instance
     qq = QuickQuiz()
     # Start the server with a list of terms
     qq.start(terms=rl.get_list(), port=1234)
