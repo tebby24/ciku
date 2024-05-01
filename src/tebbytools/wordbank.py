@@ -68,8 +68,9 @@ class WordBank:
         """
         Add a new word to the wordbank
         Args:
-            word: the word to add
-            tags: a list of string tags
+            word (string): the word to add
+            date_time (datetime.datetime): the date and time the word was added
+            tags (string[]): a list of string tags
         """
         tags_str = json.dumps(tags) if tags else None
         date_time_str = date_time.strftime(DATETIME_FORMAT)
@@ -108,28 +109,11 @@ class WordBank:
         conn.close()
         return words
 
-    def get_words_from_past_n_days(self, n=0):
-        """
-        Get a list of all the words added in the past n days, where n=0 will return the words added today
-        """
-        conn = self.create_connection()
-        c = conn.cursor()
-        c.execute(
-            """
-            SELECT word FROM wordbank
-            WHERE datetime >= ?
-            """,
-            ((datetime.now() - timedelta(days=n)).strftime(DATETIME_FORMAT),),
-        )
-        words = [row[0] for row in c.fetchall()]
-        conn.close()
-        return words
-
     def get_todays_words(self):
         """
         Get the list of words added today
         """
-        return self.get_words_from_past_n_days(0)
+        return self.get_words_by_date(datetime.now().date())
 
     def get_todays_new_words(self):
         """

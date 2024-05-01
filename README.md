@@ -34,12 +34,11 @@ words = wb.get_all_words()
 # Get all unique words in the bank
 unique_words = wb.get_all_unique_words()
 
-# Get words added in the past n days
-recent_words = wb.get_words_from_past_n_days(7)
-
 # Get words added today
-# Same as get_words_from_past_n_days(0)
 todays_words = wb.get_todays_words()
+
+# Get today's words that were added for the first time
+todays_new_words = wb.get_todays_new_words(self)
 
 # Get words by a specific tag
 greeting_words = wb.get_words_by_tag("greeting")

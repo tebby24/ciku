@@ -6,7 +6,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from src.tebbytools import WordBank
 
-TEST_BANK_DB = "tests/data/bank.json"
+TEST_BANK_DB = "tests/data/bank.db"
 
 if __name__ == "__main__":
     if os.path.exists(TEST_BANK_DB):
