@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-VERSION = "0.3.3"
+VERSION = "0.3.4"
 
 setup(
     name="tebbytools",
