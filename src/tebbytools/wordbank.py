@@ -1,9 +1,10 @@
 import json
 import os
-from datetime import datetime
+import sqlite3
+from datetime import datetime, timedelta
 
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
-DEFAULT_FILE_PATH = os.path.expanduser("~/langbank/bank.json")
+DEFAULT_FILE_PATH = os.path.expanduser("~/tebbytools/wordbank.db")
 
 
 class WordBank:
@@ -13,7 +14,7 @@ class WordBank:
 
     def __init__(self, file_path=None):
         """
-        Initialize LangBank with an optional file path.
+        Initialize LangBank with an optional database file path.
         If no file path is provided, a default one will be used.
         """
         if file_path is None:
@@ -31,96 +32,97 @@ class WordBank:
 
     def setup_bank(self):
         """
-        Create the word bank file and parent directories if they do not exist.
+        Create the word bank database file and parent directories if they do not exist.
         """
-        # Create parent directories if they do not exist
-        parent_dir = os.path.dirname(self.file_path)
-        if not os.path.exists(parent_dir):
-            os.makedirs(parent_dir)
-        # Create the word bank file if it does not exist
         if not os.path.exists(self.file_path):
-            with open(self.file_path, "w") as f:
-                f.write("[]")
+            os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
+            self.create_table()
 
-    def get_bank(self):
+    def create_connection(self):
         """
-        Get the contents of the word bank from the JSON file.
+        Create a connection to the SQLite database.
         Returns:
-            The word bank (list).
-        Raises:
-            FileNotFoundError: If the file does not exist.
+            The connection object.
         """
-        try:
-            with open(self.file_path, "r") as f:
-                bank = json.load(f)
-                # Parse datetime strings into datetime objects
-                for item in bank:
-                    if "datetime" in item:
-                        item["datetime"] = datetime.strptime(
-                            item["datetime"], DATETIME_FORMAT
-                        )
-                return bank
-        except FileNotFoundError:
-            raise FileNotFoundError(f"Error: File '{self.file_path}' not found.")
+        return sqlite3.connect(self.file_path)
 
-    def write_bank(self, bank):
+    def create_table(self):
         """
-        Write the contents of the word bank to the JSON file.
-        Args:
-            bank: The word bank (list) to write.
+        Create the word bank table in the SQLite database.
         """
-        # Convert datetime objects to strings
-        for item in bank:
-            if "datetime" in item:
-                item["datetime"] = item["datetime"].strftime(DATETIME_FORMAT)
-        # Write bank to JSON file
-        with open(self.file_path, "w") as f:
-            json.dump(bank, f, indent=4)
+        conn = self.create_connection()
+        c = conn.cursor()
+        c.execute(
+            """
+            CREATE TABLE IF NOT EXISTS wordbank (
+                word TEXT NOT NULL,
+                datetime TEXT NOT NULL,
+                tags TEXT
+            )
+            """
+        )
+        conn.commit()
+        conn.close()
 
-    def add_word(self, word, tags=None):
+    def add_word(self, word, date_time=datetime.now(), tags=None):
         """
         Add a new word to the wordbank
         Args:
             word: the word to add
             tags: a list of string tags
         """
-        if tags is None:
-            tags = []
-        dt = datetime.now()
-        entry = {"word": word, "datetime": dt, "tags": tags}
-        bank = self.get_bank()
-        bank.append(entry)
-        self.write_bank(bank)
+        tags_str = json.dumps(tags) if tags else None
+        date_time_str = date_time.strftime(DATETIME_FORMAT)
+        conn = self.create_connection()
+        c = conn.cursor()
+        # Insert the word into the database
+        c.execute(
+            """
+            INSERT INTO wordbank (word, datetime, tags)
+            VALUES (?, ?, ?)
+            """,
+            (word, date_time_str, tags_str),
+        )
+        conn.commit()
+        conn.close()
 
     def get_all_words(self):
         """
         Get a list of all the words in the bank
         """
-        bank = self.get_bank()
-        words = [entry["word"] for entry in bank]
+        conn = self.create_connection()
+        c = conn.cursor()
+        c.execute("SELECT word FROM wordbank")
+        words = [row[0] for row in c.fetchall()]
+        conn.close()
         return words
 
     def get_all_unique_words(self):
         """
         Get a list of all the unique words in the bank
         """
-        bank = self.get_bank()
-        words = []
-        for entry in bank:
-            if entry["word"] not in words:
-                words.append(entry["word"])
+        conn = self.create_connection()
+        c = conn.cursor()
+        c.execute("SELECT DISTINCT word FROM wordbank")
+        words = [row[0] for row in c.fetchall()]
+        conn.close()
         return words
 
     def get_words_from_past_n_days(self, n=0):
         """
         Get a list of all the words added in the past n days, where n=0 will return the words added today
         """
-        bank = self.get_bank()
-        today = datetime.now().date()
-        words = []
-        for entry in bank:
-            if (today - entry["datetime"].date()).days <= n:
-                words.append(entry["word"])
+        conn = self.create_connection()
+        c = conn.cursor()
+        c.execute(
+            """
+            SELECT word FROM wordbank
+            WHERE datetime >= ?
+            """,
+            ((datetime.now() - timedelta(days=n)).strftime(DATETIME_FORMAT),),
+        )
+        words = [row[0] for row in c.fetchall()]
+        conn.close()
         return words
 
     def get_todays_words(self):
@@ -131,40 +133,59 @@ class WordBank:
 
     def get_todays_new_words(self):
         """
-        Get the list of words added today that have not been added before
+        Get a list of the words added today that only appear once in the bank
         """
         todays_words = self.get_todays_words()
-        return [word for word in todays_words if self.occurences(word) == 1]
+        new_words = [word for word in todays_words if self.occurences(word) == 1]
+        return new_words
 
     def get_words_by_tag(self, tag):
         """
         Get a list of all the words with a specific tag
         """
-        bank = self.get_bank()
-        words = []
-        for entry in bank:
-            if tag in entry["tags"]:
-                words.append(entry["word"])
+        conn = self.create_connection()
+        c = conn.cursor()
+        c.execute(
+            """
+            SELECT word FROM wordbank
+            WHERE tags LIKE ?
+            """,
+            (f"%{tag}%",),
+        )
+        words = [row[0] for row in c.fetchall()]
+        conn.close()
         return words
 
     def get_words_by_date(self, date):
         """
         Get a list of all the words added on a specific date
         """
-        bank = self.get_bank()
-        words = []
-        for entry in bank:
-            if entry["datetime"].date() == date:
-                words.append(entry["word"])
+        conn = self.create_connection()
+        c = conn.cursor()
+        c.execute(
+            """
+            SELECT word FROM wordbank
+            WHERE datetime LIKE ?
+            """,
+            (f"{date}%",),
+        )
+        words = [row[0] for row in c.fetchall()]
+        conn.close()
         return words
 
     def occurences(self, word):
         """
         Get the number of times a word has been added to the bank
         """
-        bank = self.get_bank()
-        count = 0
-        for entry in bank:
-            if entry["word"] == word:
-                count += 1
+        conn = self.create_connection()
+        c = conn.cursor()
+        c.execute(
+            """
+            SELECT COUNT(*) FROM wordbank
+            WHERE word = ?
+            """,
+            (word,),
+        )
+        count = c.fetchone()[0]
+        conn.close()
         return count
