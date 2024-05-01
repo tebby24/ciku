@@ -12,20 +12,21 @@ pip install tebbytools
 
 ### Word bank
 
-A `WordBank` manages a json file that contains a list of words you've encountered.
+A `WordBank` manages a database file that contains a list of words you've encountered.
 You can add words to the bank and query them in various ways.
 
 ```python
 from tebbytools import WordBank
 
 # Initialize a WordBank instance
-wb = WordBank(file_path="path/to/your/word_bank.json")
+wb = WordBank(file_path="path/to/your/word_bank.db")
 
 # Set a new file path
-wb.set_file_path("new/path/to/your/word_bank.json")
+wb.set_file_path("new/path/to/your/word_bank.db")
 
-# Add a word to the bank with optional tags
-wb.add_word("hello", tags=["greeting", "basic"])
+# Add a word to the bank with optional date_time and tags
+# If date_time is not specified, datetime.now() will be used
+wb.add_word("hello", date_time=datetime.now(), tags=["greeting", "basic"])
 
 # Get all words in the bank
 words = wb.get_all_words()
@@ -37,6 +38,7 @@ unique_words = wb.get_all_unique_words()
 recent_words = wb.get_words_from_past_n_days(7)
 
 # Get words added today
+# Same as get_words_from_past_n_days(0)
 todays_words = wb.get_todays_words()
 
 # Get words by a specific tag
